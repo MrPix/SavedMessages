@@ -38,4 +38,20 @@ public class MockMessage
         MessageKind.File => "File",
         _ => "Note"
     };
+
+    /// <summary>Compute a date-group label matching the web app's format (Today, Yesterday, Weekday, Month day, etc.).</summary>
+    public static string GetDateLabel(DateTime createdAt, DateTime today)
+    {
+        var date = new DateTime(createdAt.Year, createdAt.Month, createdAt.Day);
+        var t = new DateTime(today.Year, today.Month, today.Day);
+        var diffDays = (int)Math.Round((t - date).TotalDays);
+
+        if (diffDays == 0) return "Today";
+        if (diffDays == 1) return "Yesterday";
+        if (diffDays >= 2 && diffDays <= 6)
+            return date.ToString("dddd"); // e.g., "Monday"
+        if (date.Year == t.Year)
+            return date.ToString("MMMM d"); // e.g., "August 17"
+        return date.ToString("MMMM d, yyyy"); // e.g., "August 17, 2025"
+    }
 }

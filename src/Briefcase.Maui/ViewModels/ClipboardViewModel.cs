@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Briefcase.Maui.Models;
 using Briefcase.Maui.Services;
 
@@ -16,11 +17,6 @@ public partial class ClipboardViewModel : BaseViewModel
         BuildGroups();
     }
 
-    public string[] Filters { get; } = ["All", "Favorites", "Files", "Links", "Notes"];
-
-    [ObservableProperty]
-    private string _selectedFilter = "All";
-
     [ObservableProperty]
     private ObservableCollection<MessageGroup> _groups = [];
 
@@ -31,35 +27,18 @@ public partial class ClipboardViewModel : BaseViewModel
     [ObservableProperty]
     private string _draft = string.Empty;
 
-    partial void OnSelectedFilterChanged(string value) => BuildGroups();
-
+    // Category filtering moved to drawer; show all (pinned + by date).
     private void BuildGroups()
     {
         var groups = new ObservableCollection<MessageGroup>();
 
-        if (SelectedFilter == "All")
-        {
-            var pinned = _data.GetMessages().Where(m => m.IsPinned).ToList();
-            if (pinned.Count > 0)
-                groups.Add(new MessageGroup("Pinned", pinned));
+        var all = _data.GetMessages();
+        var pinned = all.Where(m => m.IsPinned).ToList();
+        if (pinned.Count > 0)
+            groups.Add(new MessageGroup("Pinned", pinned));
 
-            foreach (var group in GroupByDate(_data.GetMessages().Where(m => !m.IsPinned)))
-                groups.Add(group);
-        }
-        else
-        {
-            var filtered = SelectedFilter switch
-            {
-                "Favorites" => _data.GetMessages(pinnedOnly: true),
-                "Files" => _data.GetMessages(MessageKind.File),
-                "Links" => _data.GetMessages(MessageKind.Url),
-                "Notes" => _data.GetMessages(MessageKind.Text),
-                _ => _data.GetMessages()
-            };
-
-            foreach (var group in GroupByDate(filtered))
-                groups.Add(group);
-        }
+        foreach (var group in GroupByDate(all.Where(m => !m.IsPinned)))
+            groups.Add(group);
 
         Groups = groups;
         IsEmpty = groups.Count == 0;
@@ -69,4 +48,11 @@ public partial class ClipboardViewModel : BaseViewModel
         messages
             .GroupBy(m => m.DateGroup)
             .Select(g => new MessageGroup(g.Key, g));
+
+    [RelayCommand]
+    private void SaveMessage()
+    {
+        // Visual-only mock: clear the draft text.
+        Draft = string.Empty;
+    }
 }

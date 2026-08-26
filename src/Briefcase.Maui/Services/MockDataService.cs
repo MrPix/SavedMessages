@@ -13,24 +13,29 @@ public class MockDataService
     {
         var now = DateTime.Now;
 
+        // Spread sample messages across today, yesterday, a few weekdays, and older dates
+        // so date separators show varied formats.
         _messages =
         [
-            new MockMessage { Kind = MessageKind.Text, Content = "Wi-Fi password: sunset-harbor-42", IsPinned = true, CreatedAt = now.AddMinutes(-8), DateGroup = "Today" },
-            new MockMessage { Kind = MessageKind.Url, Content = "https://github.com/MrPix/Briefcase", IsPinned = true, CreatedAt = now.AddHours(-2), DateGroup = "Today" },
-            new MockMessage { Kind = MessageKind.Text, Content = "Remember to renew the domain briefcase.page before June.", CreatedAt = now.AddHours(-3), DateGroup = "Today" },
-            new MockMessage { Kind = MessageKind.File, FileName = "boarding-pass.pdf", FileComment = "Flight LX318 — gate B24", CreatedAt = now.AddHours(-5), DateGroup = "Today" },
-            new MockMessage { Kind = MessageKind.Url, Content = "https://maps.app.goo.gl/8xQ2mP", FileComment = "Meeting spot", CreatedAt = now.AddHours(-6), DateGroup = "Today" },
-            new MockMessage { Kind = MessageKind.Text, Content = "Grocery list: oat milk, avocados, coffee beans, sourdough", CreatedAt = now.AddDays(-1).AddHours(-1), DateGroup = "Yesterday" },
-            new MockMessage { Kind = MessageKind.File, FileName = "design-mockup.png", FileComment = "v3 — dark theme", CreatedAt = now.AddDays(-1).AddHours(-4), DateGroup = "Yesterday" },
-            new MockMessage { Kind = MessageKind.Url, Content = "https://learn.microsoft.com/dotnet/maui", CreatedAt = now.AddDays(-1).AddHours(-5), DateGroup = "Yesterday" },
-            new MockMessage { Kind = MessageKind.Text, Content = "Parking level P2, spot 118", CreatedAt = now.AddDays(-3), DateGroup = "Earlier" },
-            new MockMessage { Kind = MessageKind.File, FileName = "invoice-2026-04.pdf", CreatedAt = now.AddDays(-4), DateGroup = "Earlier" },
+            new MockMessage { Kind = MessageKind.Text, Content = "Wi-Fi password: sunset-harbor-42", IsPinned = true, CreatedAt = now.AddMinutes(-8), DateGroup = MockMessage.GetDateLabel(now.AddMinutes(-8), now) },
+            new MockMessage { Kind = MessageKind.Url, Content = "https://github.com/MrPix/Briefcase", IsPinned = true, CreatedAt = now.AddHours(-2), DateGroup = MockMessage.GetDateLabel(now.AddHours(-2), now) },
+            new MockMessage { Kind = MessageKind.Text, Content = "Remember to renew the domain briefcase.page before June.", CreatedAt = now.AddHours(-3), DateGroup = MockMessage.GetDateLabel(now.AddHours(-3), now) },
+            new MockMessage { Kind = MessageKind.File, FileName = "boarding-pass.pdf", FileComment = "Flight LX318 — gate B24", CreatedAt = now.AddHours(-5), DateGroup = MockMessage.GetDateLabel(now.AddHours(-5), now) },
+            new MockMessage { Kind = MessageKind.Url, Content = "https://maps.app.goo.gl/8xQ2mP", FileComment = "Meeting spot", CreatedAt = now.AddHours(-6), DateGroup = MockMessage.GetDateLabel(now.AddHours(-6), now) },
+            new MockMessage { Kind = MessageKind.Text, Content = "Grocery list: oat milk, avocados, coffee beans, sourdough", CreatedAt = now.AddDays(-1).AddHours(-1), DateGroup = MockMessage.GetDateLabel(now.AddDays(-1).AddHours(-1), now) },
+            new MockMessage { Kind = MessageKind.File, FileName = "design-mockup.png", FileComment = "v3 — dark theme", CreatedAt = now.AddDays(-1).AddHours(-4), DateGroup = MockMessage.GetDateLabel(now.AddDays(-1).AddHours(-4), now) },
+            new MockMessage { Kind = MessageKind.Url, Content = "https://learn.microsoft.com/dotnet/maui", CreatedAt = now.AddDays(-1).AddHours(-5), DateGroup = MockMessage.GetDateLabel(now.AddDays(-1).AddHours(-5), now) },
+            // Add weekday samples (2-6 days ago to show day names)
+            new MockMessage { Kind = MessageKind.Text, Content = "Parking level P2, spot 118", CreatedAt = now.AddDays(-3), DateGroup = MockMessage.GetDateLabel(now.AddDays(-3), now) },
+            new MockMessage { Kind = MessageKind.File, FileName = "invoice-2026-04.pdf", CreatedAt = now.AddDays(-4), DateGroup = MockMessage.GetDateLabel(now.AddDays(-4), now) },
+            // Add older date (full date format)
+            new MockMessage { Kind = MessageKind.Text, Content = "Project kickoff meeting notes", CreatedAt = now.AddDays(-12), DateGroup = MockMessage.GetDateLabel(now.AddDays(-12), now) },
         ];
 
         _trash =
         [
-            new MockMessage { Kind = MessageKind.Text, Content = "Old draft — call the dentist", CreatedAt = now.AddDays(-2), DateGroup = "Trash" },
-            new MockMessage { Kind = MessageKind.Url, Content = "https://example.com/expired-link", CreatedAt = now.AddDays(-6), DateGroup = "Trash" },
+            new MockMessage { Kind = MessageKind.Text, Content = "Old draft — call the dentist", CreatedAt = now.AddDays(-2), DateGroup = MockMessage.GetDateLabel(now.AddDays(-2), now) },
+            new MockMessage { Kind = MessageKind.Url, Content = "https://example.com/expired-link", CreatedAt = now.AddDays(-6), DateGroup = MockMessage.GetDateLabel(now.AddDays(-6), now) },
         ];
 
         _devices =

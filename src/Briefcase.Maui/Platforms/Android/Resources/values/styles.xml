@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Light status bar with dark icons for Briefcase theme. -->
+    <style name="Maui.MainTheme" parent="Maui.MainTheme.Base">
+        <!-- Status bar: light background (#F0F0F0) with dark text/icons (requires API 23+) -->
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+    </style>
+</resources>
