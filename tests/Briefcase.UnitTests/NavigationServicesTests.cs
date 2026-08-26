@@ -79,6 +79,40 @@ public sealed class NavigationServicesTests
     }
 
     [TestMethod]
+    public async Task Resolver_ReadsCoordinatesFromGoogleRegionalDomainRedirect()
+    {
+        var handler = new StubHandler(request => request.RequestUri!.Host == "maps.app.goo.gl"
+            ? new HttpResponseMessage(HttpStatusCode.Redirect)
+            {
+                Headers =
+                {
+                    Location = new Uri(
+                        "https://www.google.com.ua/maps/place/NOVUS/@50.5438603,30.4851225,16.25z/data=!4m6!3m5!1s0x40d4d3e77de659f9:0x42e6d24821b7fff0!8m2!3d50.5418338!4d30.4866914!16s%2Fg%2F11ly5xy_pr")
+                }
+            }
+            : throw new AssertFailedException("Google page should not be requested when redirect URL includes coordinates."));
+        var resolver = new GoogleMapsResolver(new HttpClient(handler));
+
+        var result = await resolver.ResolveAsync("https://maps.app.goo.gl/LP4XtBcCbKynSxmy5");
+
+        Assert.AreEqual(MapResolutionOutcome.Success, result.Outcome);
+        Assert.AreEqual(50.5418338, result.Latitude);
+        Assert.AreEqual(30.4866914, result.Longitude);
+    }
+
+    [TestMethod]
+    public async Task Resolver_ReadsCoordinatesFromWazeLink()
+    {
+        var resolver = new GoogleMapsResolver(new HttpClient(new StubHandler(_ => throw new AssertFailedException("HTTP should not be called."))));
+
+        var result = await resolver.ResolveAsync("https://waze.com/ul?ll=50.4501%2C30.5234&navigate=yes");
+
+        Assert.AreEqual(MapResolutionOutcome.Success, result.Outcome);
+        Assert.AreEqual(50.4501, result.Latitude);
+        Assert.AreEqual(30.5234, result.Longitude);
+    }
+
+    [TestMethod]
     public async Task Resolver_ReadsDestinationFromPlacePreviewInsteadOfInitializationStateCamera()
     {
         var handler = new StubHandler(request => request.RequestUri!.AbsolutePath == "/maps/preview/place"

@@ -45,6 +45,9 @@ public partial class GoogleMapsResolver(HttpClient httpClient) : IGoogleMapsReso
     [GeneratedRegex(@"/maps/(?:search|place)/(?<lat>-?\d{1,2}(?:\.\d+)?)[,+\s]+(?<lon>-?\d{1,3}(?:\.\d+)?)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex PathCoordinatesRegex();
 
+    [GeneratedRegex(@"(?<lat>-?\d{1,2}(?:\.\d+)?)[,+\s]+(?<lon>-?\d{1,3}(?:\.\d+)?)", RegexOptions.CultureInvariant)]
+    private static partial Regex CoordinatePairRegex();
+
     public bool IsSupportedUrl(string? value) =>
         Uri.TryCreate(value, UriKind.Absolute, out var uri)
         && uri.Scheme is "http" or "https"
@@ -117,7 +120,10 @@ public partial class GoogleMapsResolver(HttpClient httpClient) : IGoogleMapsReso
         var host = uri.IdnHost.ToLowerInvariant();
         return host == "maps.app.goo.gl"
             || host == "maps.google.com"
-            || host == "www.google.com" && uri.AbsolutePath.StartsWith("/maps", StringComparison.OrdinalIgnoreCase);
+            || host.StartsWith("maps.google.", StringComparison.Ordinal)
+            || host is "waze.com" or "www.waze.com"
+            || host.StartsWith("www.google.", StringComparison.Ordinal)
+                && uri.AbsolutePath.StartsWith("/maps", StringComparison.OrdinalIgnoreCase);
     }
 
     private static bool TryExtractCoordinates(string value, out double latitude, out double longitude)
@@ -149,12 +155,8 @@ public partial class GoogleMapsResolver(HttpClient httpClient) : IGoogleMapsReso
             var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
             foreach (var key in new[] { "q", "query", "destination", "center", "ll" })
             {
-                var parts = query[key]?.Split(',', 2, StringSplitOptions.TrimEntries);
-                if (parts?.Length == 2
-                    && double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out latitude)
-                    && double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out longitude)
-                    && latitude is >= -90 and <= 90
-                    && longitude is >= -180 and <= 180)
+                var queryValue = query[key];
+                if (TryExtractCoordinatePair(queryValue, out latitude, out longitude))
                 {
                     return true;
                 }
@@ -180,6 +182,19 @@ public partial class GoogleMapsResolver(HttpClient httpClient) : IGoogleMapsReso
         latitude = default;
         longitude = default;
         return false;
+    }
+
+    private static bool TryExtractCoordinatePair(string? value, out double latitude, out double longitude)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            latitude = default;
+            longitude = default;
+            return false;
+        }
+
+        var match = CoordinatePairRegex().Match(Uri.UnescapeDataString(value));
+        return TryReadCoordinates(match, out latitude, out longitude);
     }
 
     private static bool TryGetPlacePreviewUri(Uri current, string body, out Uri previewUri)
