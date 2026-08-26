@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Briefcase.Maui.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Briefcase.Maui.Views"
+    Title="Briefcase"
+    FlyoutBehavior="Disabled">
+
+    <Shell.FlyoutHeader>
+        <Grid Padding="20,24,20,16"
+                ColumnDefinitions="Auto,*"
+                ColumnSpacing="10">
+            <Image Grid.Column="0"
+                    Source="brand.png"
+                    HeightRequest="30"
+                    WidthRequest="30"
+                    VerticalOptions="Center"/>
+            <Label Grid.Column="1"
+                    Text="Briefcase"
+                    FontSize="20"
+                    FontAttributes="Bold"
+                    VerticalOptions="Center"/>
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <!-- ── Pre-auth routes (no flyout entry) ─────────────────────────────── -->
+    <ShellContent Route="landing"
+            ContentTemplate="{DataTemplate views:LandingPage}"
+            FlyoutItemIsVisible="False"/>
+    <ShellContent Route="login"
+            ContentTemplate="{DataTemplate views:LoginPage}"
+            FlyoutItemIsVisible="False"/>
+    <ShellContent Route="signup"
+            ContentTemplate="{DataTemplate views:SignupPage}"
+            FlyoutItemIsVisible="False"/>
+
+    <!-- ── Authenticated flyout ──────────────────────────────────────────── -->
+    <FlyoutItem Title="Briefcase"
+            Icon="icon_clipboard.png"
+            Route="clipboard">
+        <ShellContent ContentTemplate="{DataTemplate views:ClipboardPage}"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Devices"
+            Icon="icon_devices.png"
+            Route="devices">
+        <ShellContent ContentTemplate="{DataTemplate views:DevicesPage}"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Receive"
+            Icon="icon_transfer.png"
+            Route="transfer">
+        <ShellContent ContentTemplate="{DataTemplate views:TransferPage}"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Trash"
+            Icon="icon_trash.png"
+            Route="trash">
+        <ShellContent ContentTemplate="{DataTemplate views:TrashPage}"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Settings"
+            Icon="icon_settings.png"
+            Route="settings">
+        <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}"/>
+    </FlyoutItem>
+
+</Shell>

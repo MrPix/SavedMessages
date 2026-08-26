@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Briefcase.Maui.ViewModels"
+             x:Class="Briefcase.Maui.Views.SettingsPage"
+             x:DataType="vm:SettingsViewModel"
+             Title="Settings">
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="16"
+                    Spacing="16"
+                    MaximumWidthRequest="720"
+                    HorizontalOptions="Fill">
+
+                <Label Text="Settings"
+                        Style="{StaticResource TitleLabel}"/>
+
+                <!-- Appearance -->
+                <Label Text="APPEARANCE"
+                        Style="{StaticResource SectionLabel}"/>
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Theme"
+                                FontAttributes="Bold"/>
+                        <Label Text="Switch between light, dark, or follow the system."
+                                Style="{StaticResource MutedLabel}"/>
+                        <Border Padding="12,2"
+                                Margin="0,4,0,0"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8"
+                                Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}">
+                            <Picker ItemsSource="{Binding Themes}"
+                                    SelectedItem="{Binding SelectedTheme}"
+                                    TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"/>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Language -->
+                <Label Text="LANGUAGE"
+                        Style="{StaticResource SectionLabel}"/>
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="App language"
+                                FontAttributes="Bold"/>
+                        <Border Padding="12,2"
+                                Margin="0,4,0,0"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8"
+                                Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}">
+                            <Picker ItemsSource="{Binding Languages}"
+                                    SelectedItem="{Binding SelectedLanguage}"
+                                    TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"/>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Encryption -->
+                <Label Text="ENCRYPTION"
+                        Style="{StaticResource SectionLabel}"/>
+                <Border Style="{StaticResource Card}">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Grid.Column="0"
+                                Spacing="4">
+                            <Label Text="End-to-end encryption"
+                                    FontAttributes="Bold"/>
+                            <Label Text="Encrypt content with a passphrase only you know."
+                                    Style="{StaticResource MutedLabel}"/>
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1"
+                                IsToggled="{Binding E2eeEnabled}"
+                                VerticalOptions="Center"
+                                OnColor="{AppThemeBinding Light={StaticResource AccentLight}, Dark={StaticResource AccentDark}}"/>
+                    </Grid>
+                </Border>
+
+                <!-- Change password -->
+                <Label Text="SECURITY"
+                        Style="{StaticResource SectionLabel}"/>
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Change password"
+                                FontAttributes="Bold"/>
+                        <Border Padding="12,2"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8"
+                                Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}">
+                            <Entry Placeholder="Current password"
+                                    IsPassword="True"
+                                    Text="{Binding CurrentPassword}"
+                                    Style="{StaticResource FormEntry}"/>
+                        </Border>
+                        <Border Padding="12,2"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8"
+                                Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}">
+                            <Entry Placeholder="New password"
+                                    IsPassword="True"
+                                    Text="{Binding NewPassword}"
+                                    Style="{StaticResource FormEntry}"/>
+                        </Border>
+                        <Border Padding="12,2"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8"
+                                Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}">
+                            <Entry Placeholder="Confirm new password"
+                                    IsPassword="True"
+                                    Text="{Binding ConfirmPassword}"
+                                    Style="{StaticResource FormEntry}"/>
+                        </Border>
+                        <Button Text="Update password"
+                                Style="{StaticResource OutlineButton}"
+                                HorizontalOptions="Start"
+                                Padding="18,0"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Sessions -->
+                <Label Text="SESSIONS"
+                        Style="{StaticResource SectionLabel}"/>
+                <Border Style="{StaticResource Card}">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Grid.Column="0"
+                                Spacing="4">
+                            <Label Text="Other devices"
+                                    FontAttributes="Bold"/>
+                            <Label Text="Sign out everywhere except this device."
+                                    Style="{StaticResource MutedLabel}"/>
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1"
+                                Text="Sign out others"
+                                Style="{StaticResource OutlineButton}"
+                                HeightRequest="38"
+                                Padding="14,0"
+                                VerticalOptions="Center"/>
+                    </Grid>
+                </Border>
+
+                <!-- About + logout -->
+                <Label Text="ABOUT"
+                        Style="{StaticResource SectionLabel}"/>
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Briefcase"
+                                FontAttributes="Bold"/>
+                        <Label Text="{Binding AppVersion}"
+                                Style="{StaticResource MutedLabel}"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button Text="Log out"
+                        Style="{StaticResource DangerButton}"
+                        Command="{Binding LogOutCommand}"
+                        Margin="0,4,0,8"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

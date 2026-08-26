@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Briefcase.Maui.ViewModels"
+             xmlns:models="clr-namespace:Briefcase.Maui.Models"
+             xmlns:controls="clr-namespace:Briefcase.Maui.Controls"
+             x:Class="Briefcase.Maui.Views.TrashPage"
+             x:DataType="vm:TrashViewModel"
+             Title="Trash">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <Grid Grid.Row="0"
+                ColumnDefinitions="*,Auto"
+                Padding="16,14,16,4">
+            <Label Grid.Column="0"
+                    Text="Trash"
+                    Style="{StaticResource TitleLabel}"
+                    VerticalOptions="Center"/>
+            <Button Grid.Column="1"
+                    Text="Empty trash"
+                    Style="{StaticResource DangerButton}"
+                    IsVisible="{Binding IsEmpty, Converter={x:Static vm:InverseBoolConverter.Instance}}"/>
+        </Grid>
+
+        <CollectionView Grid.Row="1"
+                ItemsSource="{Binding Items}"
+                Margin="12,0">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:MockMessage">
+                    <controls:MessageCardView/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Padding="24,60"
+                        Spacing="8"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                    <Image Source="icon_trash.png"
+                            HeightRequest="44"
+                            WidthRequest="44"
+                            Opacity="0.5"/>
+                    <Label Text="Trash is empty"
+                            Style="{StaticResource HeadingLabel}"
+                            HorizontalTextAlignment="Center"/>
+                    <Label Text="Deleted items can be restored from here."
+                            Style="{StaticResource MutedLabel}"
+                            HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </Grid>
+</ContentPage>

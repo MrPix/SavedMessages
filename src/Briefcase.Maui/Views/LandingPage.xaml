@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Briefcase.Maui.ViewModels"
+             x:Class="Briefcase.Maui.Views.LandingPage"
+             x:DataType="vm:LandingViewModel"
+             Shell.NavBarIsVisible="False">
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="24,48"
+                    Spacing="20"
+                    MaximumWidthRequest="520"
+                    HorizontalOptions="Center">
+
+                <HorizontalStackLayout Spacing="12"
+                        HorizontalOptions="Center">
+                    <Image Source="brand.png"
+                            HeightRequest="44"
+                            WidthRequest="44"/>
+                    <Label Text="Briefcase"
+                            FontSize="34"
+                            FontAttributes="Bold"
+                            VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+
+                <Label Text="Your personal clipboard across every device"
+                       FontSize="18"
+                        FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"/>
+
+                <Label Text="Copy on one device, paste on another. Notes, links, and files travel with you — end-to-end encrypted."
+                       Style="{StaticResource SecondaryLabel}"
+                       HorizontalTextAlignment="Center"/>
+
+                <Image Source="illustration.png"
+                        HeightRequest="110"
+                        Margin="0,8"/>
+
+                <Button Text="Create account"
+                        Style="{StaticResource PrimaryButton}"
+                        Command="{Binding CreateAccountCommand}"/>
+                <Button Text="Sign in"
+                        Style="{StaticResource OutlineButton}"
+                        Command="{Binding SignInCommand}"/>
+
+                <Button Text="Receive a file"
+                        BackgroundColor="Transparent"
+                        TextColor="{AppThemeBinding Light={StaticResource AccentLight}, Dark={StaticResource AccentDark}}"
+                        Command="{Binding ReceiveFileCommand}"/>
+
+                <Label Text="No account needed — enter a code to receive a shared file."
+                       Style="{StaticResource MutedLabel}"
+                       HorizontalTextAlignment="Center"/>
+
+                <BoxView HeightRequest="1"
+                        Margin="0,8"
+                         Color="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"/>
+
+                <Label Text="EVERYTHING IN ONE PLACE"
+                        Style="{StaticResource SectionLabel}"
+                        HorizontalOptions="Center"/>
+
+                <VerticalStackLayout Spacing="10">
+                    <Border Style="{StaticResource Card}">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Universal clipboard"
+                                    FontAttributes="Bold"/>
+                            <Label Text="Text, links and files sync instantly between your devices."
+                                    Style="{StaticResource SecondaryLabel}"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Style="{StaticResource Card}">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="End-to-end encrypted"
+                                    FontAttributes="Bold"/>
+                            <Label Text="Optional passphrase encryption — only you can read your data."
+                                    Style="{StaticResource SecondaryLabel}"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Style="{StaticResource Card}">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Share by link"
+                                    FontAttributes="Bold"/>
+                            <Label Text="Generate expiring or one-time links for anything you save."
+                                    Style="{StaticResource SecondaryLabel}"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Design tokens ported from Briefcase.React/src/index.css (light + dark). -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- ── Accent ─────────────────────────────────────────────── -->
+    <Color x:Key="AccentLight">#0EA5E9</Color>
+    <Color x:Key="AccentDark">#38BDF8</Color>
+    <Color x:Key="AccentLightHover">#38BDF8</Color>
+    <Color x:Key="AccentDarkHover">#7DD3FC</Color>
+    <Color x:Key="AccentBgLight">#1A0EA5E9</Color>
+    <Color x:Key="AccentBgDark">#1F38BDF8</Color>
+
+    <!-- ── Surfaces ───────────────────────────────────────────── -->
+    <Color x:Key="PageBgLight">#F0F0F0</Color>
+    <Color x:Key="PageBgDark">#0D1117</Color>
+    <Color x:Key="SidebarBgLight">#FAFAFA</Color>
+    <Color x:Key="SidebarBgDark">#161A20</Color>
+    <Color x:Key="SurfaceLight">#FFFFFF</Color>
+    <Color x:Key="SurfaceDark">#1C2128</Color>
+    <Color x:Key="SurfaceHoverLight">#F5F5F5</Color>
+    <Color x:Key="SurfaceHoverDark">#262C35</Color>
+    <Color x:Key="BorderLight">#E8E8E8</Color>
+    <Color x:Key="BorderDark">#2D333B</Color>
+
+    <!-- ── Text ───────────────────────────────────────────────── -->
+    <Color x:Key="TextPrimaryLight">#1A1A1A</Color>
+    <Color x:Key="TextPrimaryDark">#E6EDF3</Color>
+    <Color x:Key="TextSecondaryLight">#6B7280</Color>
+    <Color x:Key="TextSecondaryDark">#9DA7B3</Color>
+    <Color x:Key="TextMutedLight">#9CA3AF</Color>
+    <Color x:Key="TextMutedDark">#6E7681</Color>
+
+    <!-- ── Semantic ───────────────────────────────────────────── -->
+    <Color x:Key="Green">#22C55E</Color>
+    <Color x:Key="Danger">#EF4444</Color>
+    <Color x:Key="LinkBadgeBg">#DBEAFE</Color>
+    <Color x:Key="LinkBadgeText">#2563EB</Color>
+    <Color x:Key="FileBadgeBg">#DCFCE7</Color>
+    <Color x:Key="FileBadgeText">#16A34A</Color>
+    <Color x:Key="FileIconColor">#DC2626</Color>
+
+    <!-- Neutral scale (used by a few implicit styles) -->
+    <Color x:Key="White">#FFFFFF</Color>
+    <Color x:Key="Black">#000000</Color>
+    <Color x:Key="Gray200">#E8E8E8</Color>
+    <Color x:Key="Gray500">#6B7280</Color>
+
+</ResourceDictionary>

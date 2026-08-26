@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Briefcase.Maui.ViewModels"
+             x:Class="Briefcase.Maui.Views.SignupPage"
+             x:DataType="vm:SignupViewModel"
+             Shell.NavBarIsVisible="False">
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="24,48"
+                    Spacing="16"
+                    MaximumWidthRequest="440"
+                    HorizontalOptions="Center">
+
+                <HorizontalStackLayout Spacing="10"
+                        HorizontalOptions="Center"
+                        Margin="0,0,0,8">
+                    <Image Source="brand.png"
+                            HeightRequest="34"
+                            WidthRequest="34"/>
+                    <Label Text="Briefcase"
+                            FontSize="24"
+                            FontAttributes="Bold"
+                            VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+
+                <Label Text="Create your account"
+                        Style="{StaticResource TitleLabel}"
+                        HorizontalTextAlignment="Center"/>
+                <Label Text="Start syncing across your devices"
+                        Style="{StaticResource SecondaryLabel}"
+                        HorizontalTextAlignment="Center"/>
+
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Display name"
+                            Style="{StaticResource FormLabel}"/>
+                    <Border Style="{StaticResource Card}"
+                            Padding="12,2">
+                        <Entry Placeholder="Alex Doe"
+                                Text="{Binding DisplayName}"
+                                Style="{StaticResource FormEntry}"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Email"
+                            Style="{StaticResource FormLabel}"/>
+                    <Border Style="{StaticResource Card}"
+                            Padding="12,2">
+                        <Entry Placeholder="you@example.com"
+                                Keyboard="Email"
+                                Text="{Binding Email}"
+                                Style="{StaticResource FormEntry}"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Password"
+                            Style="{StaticResource FormLabel}"/>
+                    <Border Style="{StaticResource Card}"
+                            Padding="12,2">
+                        <Entry Placeholder="At least 8 characters"
+                                IsPassword="True"
+                                Text="{Binding Password}"
+                                Style="{StaticResource FormEntry}"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Confirm password"
+                            Style="{StaticResource FormLabel}"/>
+                    <Border Style="{StaticResource Card}"
+                            Padding="12,2">
+                        <Entry Placeholder="Re-enter your password"
+                                IsPassword="True"
+                                Text="{Binding ConfirmPassword}"
+                                Style="{StaticResource FormEntry}"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <Button Text="Create account"
+                        Style="{StaticResource PrimaryButton}"
+                        Command="{Binding CreateAccountCommand}"
+                        Margin="0,4,0,0"/>
+
+                <Grid ColumnDefinitions="*,Auto,*"
+                        ColumnSpacing="12"
+                        Margin="0,4">
+                    <BoxView Grid.Column="0"
+                            HeightRequest="1"
+                            VerticalOptions="Center"
+                             Color="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"/>
+                    <Label Grid.Column="1"
+                            Text="or"
+                            Style="{StaticResource MutedLabel}"/>
+                    <BoxView Grid.Column="2"
+                            HeightRequest="1"
+                            VerticalOptions="Center"
+                             Color="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"/>
+                </Grid>
+
+                <Button Text="Continue with Google"
+                        Style="{StaticResource OutlineButton}"/>
+                <Button Text="Continue with Microsoft"
+                        Style="{StaticResource OutlineButton}"/>
+
+                <HorizontalStackLayout Spacing="4"
+                        HorizontalOptions="Center"
+                        Margin="0,8,0,0">
+                    <Label Text="Already have an account?"
+                            Style="{StaticResource SecondaryLabel}"/>
+                    <Label Text="Sign in"
+                           TextColor="{AppThemeBinding Light={StaticResource AccentLight}, Dark={StaticResource AccentDark}}"
+                           FontAttributes="Bold">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SignInCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

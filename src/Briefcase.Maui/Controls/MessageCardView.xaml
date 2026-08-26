@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Briefcase.Maui.Models"
+             x:Class="Briefcase.Maui.Controls.MessageCardView"
+             x:DataType="models:MockMessage">
+
+    <Border Style="{StaticResource Card}"
+            Margin="0,4"
+            Padding="14">
+        <Grid ColumnDefinitions="Auto,*,Auto"
+                ColumnSpacing="12">
+
+            <Image Grid.Column="0"
+                   Source="{Binding IconSource}"
+                   WidthRequest="22"
+                    HeightRequest="22"
+                   VerticalOptions="Start"
+                    Margin="0,2,0,0"/>
+
+            <VerticalStackLayout Grid.Column="1"
+                    Spacing="3">
+                <Label Text="{Binding TimeLabel}"
+                        Style="{StaticResource MutedLabel}"
+                        FontSize="12"/>
+                <Label Text="{Binding PrimaryText}"
+                        FontSize="15"
+                        LineBreakMode="TailTruncation"
+                        MaxLines="3"/>
+                <Label Text="{Binding FileComment}"
+                       Style="{StaticResource SecondaryLabel}"
+                       IsVisible="{Binding HasComment}"/>
+            </VerticalStackLayout>
+
+            <Image Grid.Column="2"
+                   Source="icon_star.png"
+                   WidthRequest="16"
+                    HeightRequest="16"
+                   VerticalOptions="Start"
+                   IsVisible="{Binding IsPinned}"/>
+        </Grid>
+    </Border>
+</ContentView>

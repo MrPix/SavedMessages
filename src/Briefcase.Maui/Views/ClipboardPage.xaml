@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sys="clr-namespace:System;assembly=netstandard"
+             xmlns:vm="clr-namespace:Briefcase.Maui.ViewModels"
+             xmlns:models="clr-namespace:Briefcase.Maui.Models"
+             xmlns:controls="clr-namespace:Briefcase.Maui.Controls"
+             x:Class="Briefcase.Maui.Views.ClipboardPage"
+             x:DataType="vm:ClipboardViewModel"
+             Title="Briefcase">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- Filter chips -->
+        <CollectionView Grid.Row="0"
+                        ItemsSource="{Binding Filters}"
+                        SelectedItem="{Binding SelectedFilter, Mode=TwoWay}"
+                        SelectionMode="Single"
+                        Margin="12,12,12,4"
+                        HeightRequest="44">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal"
+                        ItemSpacing="8"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="sys:String">
+                    <Border StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="16,7"
+                            Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor"
+                                                Value="{AppThemeBinding Light={StaticResource AccentLight}, Dark={StaticResource AccentDark}}"/>
+                                        <Setter Property="Stroke"
+                                                Value="{AppThemeBinding Light={StaticResource AccentLight}, Dark={StaticResource AccentDark}}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Label Text="{Binding .}"
+                                FontSize="13"
+                                FontAttributes="Bold"/>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Grouped message list -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Groups}"
+                        IsGrouped="True"
+                        Margin="12,0">
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="vm:MessageGroup">
+                    <Label Text="{Binding Name}"
+                           Style="{StaticResource SectionLabel}"
+                           Margin="4,14,0,4"/>
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:MockMessage">
+                    <controls:MessageCardView/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Padding="24,60"
+                        Spacing="8"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                    <Image Source="icon_clipboard.png"
+                            HeightRequest="44"
+                            WidthRequest="44"
+                            Opacity="0.5"/>
+                    <Label Text="Nothing here yet"
+                            Style="{StaticResource HeadingLabel}"
+                            HorizontalTextAlignment="Center"/>
+                    <Label Text="Items you save will appear in this list."
+                            Style="{StaticResource MutedLabel}"
+                            HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+        <!-- Compose bar (visual only) -->
+        <Border Grid.Row="2"
+                Margin="12"
+                Padding="6,4"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 12"
+                Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}">
+            <Grid ColumnDefinitions="Auto,*,Auto"
+                    ColumnSpacing="4">
+                <ImageButton Grid.Column="0"
+                        Source="icon_paperclip.png"
+                             WidthRequest="22"
+                        HeightRequest="22"
+                        Padding="10"
+                             BackgroundColor="Transparent"/>
+                <Entry Grid.Column="1"
+                        Placeholder="Type or paste something…"
+                       Text="{Binding Draft}"
+                        Style="{StaticResource FormEntry}"
+                        VerticalOptions="Center"/>
+                <ImageButton Grid.Column="2"
+                        Source="icon_send.png"
+                             WidthRequest="22"
+                        HeightRequest="22"
+                        Padding="10"
+                             BackgroundColor="Transparent"/>
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>
