@@ -6,8 +6,8 @@
              x:DataType="models:MockMessage">
 
     <Border Style="{StaticResource Card}"
-            Margin="0,3"
-            Padding="12">
+            Margin="0,2"
+            Padding="8">
 
         <Grid ColumnDefinitions="Auto,*,Auto"
               ColumnSpacing="10">

@@ -1,239 +1,243 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="Briefcase.Maui.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:Briefcase.Maui.Views"
-    Title="Briefcase"
-    FlyoutBehavior="Disabled">
+        x:Class="Briefcase.Maui.AppShell"
+        xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:views="clr-namespace:Briefcase.Maui.Views"
+        Title="Briefcase"
+        FlyoutBehavior="Disabled"
+        Shell.NavBarHasShadow="False"
+        Shell.BackgroundColor="{AppThemeBinding Light={StaticResource AccentLight}, Dark={StaticResource AccentDark}}"
+        Shell.TitleColor="White"
+        Shell.DisabledColor="Gray">
 
-    <!-- Custom flyout matching web sidebar IA -->
-    <Shell.FlyoutContent>
-        <VerticalStackLayout Padding="0"
-                Spacing="0">
-            <!-- Brand header -->
-            <Grid Padding="12,16,12,12"
-                  ColumnDefinitions="Auto,*"
-                  ColumnSpacing="8">
-                <Image Grid.Column="0"
-                       Source="brand.png"
-                       HeightRequest="28"
-                       WidthRequest="28"
-                       VerticalOptions="Center"/>
-                <Label Grid.Column="1"
-                       Text="Briefcase"
-                       FontSize="18"
-                       FontAttributes="Bold"
-                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
-                       VerticalOptions="Center"/>
-            </Grid>
+        <!-- Custom flyout matching web sidebar IA -->
+        <Shell.FlyoutContent>
+                <VerticalStackLayout Padding="0"
+                                     Spacing="0">
+                        <!-- Brand header -->
+                        <Grid Padding="12,16,12,12"
+                              ColumnDefinitions="Auto,*"
+                              ColumnSpacing="8">
+                                <Image Grid.Column="0"
+                                       Source="brand.png"
+                                       HeightRequest="28"
+                                       WidthRequest="28"
+                                       VerticalOptions="Center"/>
+                                <Label Grid.Column="1"
+                                       Text="Briefcase"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                                       VerticalOptions="Center"/>
+                        </Grid>
 
-            <!-- Scrollable navigation sections -->
-            <ScrollView>
-                <VerticalStackLayout Padding="8,0"
-                        Spacing="0">
-                    <!-- ── Contents section ─────────────────────────────────────────── -->
-                    <Label Text="CONTENTS"
-                           FontSize="10"
-                           FontAttributes="Bold"
-                           CharacterSpacing="0.6"
-                           TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
-                           Margin="8,12,8,6"/>
+                        <!-- Scrollable navigation sections -->
+                        <ScrollView>
+                                <VerticalStackLayout Padding="8,0"
+                                                     Spacing="0">
+                                        <!-- ── Contents section ─────────────────────────────────────────── -->
+                                        <Label Text="CONTENTS"
+                                               FontSize="10"
+                                               FontAttributes="Bold"
+                                               CharacterSpacing="0.6"
+                                               TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                               Margin="8,12,8,6"/>
 
-                    <Grid Padding="6,8"
-                            ColumnDefinitions="Auto,*"
-                            ColumnSpacing="10">
-                        <Image Grid.Column="0"
-                                Source="icon_clipboard.png"
-                                WidthRequest="20"
-                                HeightRequest="20"/>
-                        <Label Grid.Column="1"
-                                Text="All"
-                                FontSize="13"
-                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
-                               VerticalOptions="Center"/>
-                    </Grid>
+                                        <Grid Padding="6,8"
+                                              ColumnDefinitions="Auto,*"
+                                              ColumnSpacing="10">
+                                                <Image Grid.Column="0"
+                                                       Source="icon_clipboard.png"
+                                                       WidthRequest="20"
+                                                       HeightRequest="20"/>
+                                                <Label Grid.Column="1"
+                                                       Text="All"
+                                                       FontSize="13"
+                                                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                                       VerticalOptions="Center"/>
+                                        </Grid>
 
-                    <Grid Padding="6,4"
-                            ColumnDefinitions="Auto,*"
-                            ColumnSpacing="10">
-                        <Image Grid.Column="0"
-                                Source="icon_star.png"
-                                WidthRequest="20"
-                                HeightRequest="20"/>
-                        <Label Grid.Column="1"
-                                Text="Favorites"
-                                FontSize="13"
-                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
-                               VerticalOptions="Center"/>
-                    </Grid>
+                                        <Grid Padding="6,4"
+                                              ColumnDefinitions="Auto,*"
+                                              ColumnSpacing="10">
+                                                <Image Grid.Column="0"
+                                                       Source="icon_star.png"
+                                                       WidthRequest="20"
+                                                       HeightRequest="20"/>
+                                                <Label Grid.Column="1"
+                                                       Text="Favorites"
+                                                       FontSize="13"
+                                                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                                       VerticalOptions="Center"/>
+                                        </Grid>
 
-                    <Grid Padding="6,4"
-                            ColumnDefinitions="Auto,*"
-                            ColumnSpacing="10">
-                        <Image Grid.Column="0"
-                                Source="icon_file.png"
-                                WidthRequest="20"
-                                HeightRequest="20"/>
-                        <Label Grid.Column="1"
-                                Text="Files"
-                                FontSize="13"
-                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
-                               VerticalOptions="Center"/>
-                    </Grid>
+                                        <Grid Padding="6,4"
+                                              ColumnDefinitions="Auto,*"
+                                              ColumnSpacing="10">
+                                                <Image Grid.Column="0"
+                                                       Source="icon_file.png"
+                                                       WidthRequest="20"
+                                                       HeightRequest="20"/>
+                                                <Label Grid.Column="1"
+                                                       Text="Files"
+                                                       FontSize="13"
+                                                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                                       VerticalOptions="Center"/>
+                                        </Grid>
 
-                    <Grid Padding="6,4"
-                            ColumnDefinitions="Auto,*"
-                            ColumnSpacing="10">
-                        <Image Grid.Column="0"
-                                Source="icon_link.png"
-                                WidthRequest="20"
-                                HeightRequest="20"/>
-                        <Label Grid.Column="1"
-                                Text="Links"
-                                FontSize="13"
-                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
-                               VerticalOptions="Center"/>
-                    </Grid>
+                                        <Grid Padding="6,4"
+                                              ColumnDefinitions="Auto,*"
+                                              ColumnSpacing="10">
+                                                <Image Grid.Column="0"
+                                                       Source="icon_link.png"
+                                                       WidthRequest="20"
+                                                       HeightRequest="20"/>
+                                                <Label Grid.Column="1"
+                                                       Text="Links"
+                                                       FontSize="13"
+                                                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                                       VerticalOptions="Center"/>
+                                        </Grid>
 
-                    <Grid Padding="6,4"
-                            ColumnDefinitions="Auto,*"
-                            ColumnSpacing="10">
-                        <Image Grid.Column="0"
-                                Source="icon_text.png"
-                                WidthRequest="20"
-                                HeightRequest="20"/>
-                        <Label Grid.Column="1"
-                                Text="Notes"
-                                FontSize="13"
-                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
-                               VerticalOptions="Center"/>
-                    </Grid>
+                                        <Grid Padding="6,4"
+                                              ColumnDefinitions="Auto,*"
+                                              ColumnSpacing="10">
+                                                <Image Grid.Column="0"
+                                                       Source="icon_text.png"
+                                                       WidthRequest="20"
+                                                       HeightRequest="20"/>
+                                                <Label Grid.Column="1"
+                                                       Text="Notes"
+                                                       FontSize="13"
+                                                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                                       VerticalOptions="Center"/>
+                                        </Grid>
 
-                    <!-- Divider -->
-                    <BoxView HeightRequest="1"
-                             Color="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
-                             Margin="8,8,8,8"/>
+                                        <!-- Divider -->
+                                        <BoxView HeightRequest="1"
+                                                 Color="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                                                 Margin="8,8,8,8"/>
 
-                    <!-- ── Devices section ─────────────────────────────────────────── -->
-                    <Label Text="DEVICES"
-                           FontSize="10"
-                           FontAttributes="Bold"
-                           CharacterSpacing="0.6"
-                           TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
-                           Margin="8,4,8,6"/>
+                                        <!-- ── Devices section ─────────────────────────────────────────── -->
+                                        <Label Text="DEVICES"
+                                               FontSize="10"
+                                               FontAttributes="Bold"
+                                               CharacterSpacing="0.6"
+                                               TextColor="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"
+                                               Margin="8,4,8,6"/>
 
-                    <Grid Padding="6,4"
-                            ColumnDefinitions="Auto,*"
-                            ColumnSpacing="10">
-                        <Image Grid.Column="0"
-                                Source="icon_devices.png"
-                                WidthRequest="20"
-                                HeightRequest="20"/>
-                        <Label Grid.Column="1"
-                                Text="Devices"
-                                FontSize="13"
-                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
-                               VerticalOptions="Center"/>
-                    </Grid>
+                                        <Grid Padding="6,4"
+                                              ColumnDefinitions="Auto,*"
+                                              ColumnSpacing="10">
+                                                <Image Grid.Column="0"
+                                                       Source="icon_devices.png"
+                                                       WidthRequest="20"
+                                                       HeightRequest="20"/>
+                                                <Label Grid.Column="1"
+                                                       Text="Devices"
+                                                       FontSize="13"
+                                                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                                       VerticalOptions="Center"/>
+                                        </Grid>
 
-                    <Grid Padding="6,4"
-                            ColumnDefinitions="Auto,*"
-                            ColumnSpacing="10">
-                        <Image Grid.Column="0"
-                                Source="icon_transfer.png"
-                                WidthRequest="20"
-                                HeightRequest="20"/>
-                        <Label Grid.Column="1"
-                                Text="Receive"
-                                FontSize="13"
-                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
-                               VerticalOptions="Center"/>
-                    </Grid>
+                                        <Grid Padding="6,4"
+                                              ColumnDefinitions="Auto,*"
+                                              ColumnSpacing="10">
+                                                <Image Grid.Column="0"
+                                                       Source="icon_transfer.png"
+                                                       WidthRequest="20"
+                                                       HeightRequest="20"/>
+                                                <Label Grid.Column="1"
+                                                       Text="Receive"
+                                                       FontSize="13"
+                                                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                                       VerticalOptions="Center"/>
+                                        </Grid>
 
-                    <!-- Divider -->
-                    <BoxView HeightRequest="1"
-                             Color="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
-                             Margin="8,8,8,8"/>
+                                        <!-- Divider -->
+                                        <BoxView HeightRequest="1"
+                                                 Color="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                                                 Margin="8,8,8,8"/>
 
-                    <!-- ── Secondary items ────────────────────────────────────────── -->
-                    <Grid Padding="6,4"
-                            ColumnDefinitions="Auto,*"
-                            ColumnSpacing="10">
-                        <Image Grid.Column="0"
-                                Source="icon_trash.png"
-                                WidthRequest="20"
-                                HeightRequest="20"/>
-                        <Label Grid.Column="1"
-                                Text="Trash"
-                                FontSize="13"
-                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
-                               VerticalOptions="Center"/>
-                    </Grid>
+                                        <!-- ── Secondary items ────────────────────────────────────────── -->
+                                        <Grid Padding="6,4"
+                                              ColumnDefinitions="Auto,*"
+                                              ColumnSpacing="10">
+                                                <Image Grid.Column="0"
+                                                       Source="icon_trash.png"
+                                                       WidthRequest="20"
+                                                       HeightRequest="20"/>
+                                                <Label Grid.Column="1"
+                                                       Text="Trash"
+                                                       FontSize="13"
+                                                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                                       VerticalOptions="Center"/>
+                                        </Grid>
 
-                    <Grid Padding="6,4"
-                            ColumnDefinitions="Auto,*"
-                            ColumnSpacing="10">
-                        <Image Grid.Column="0"
-                                Source="icon_settings.png"
-                                WidthRequest="20"
-                                HeightRequest="20"/>
-                        <Label Grid.Column="1"
-                                Text="Settings"
-                                FontSize="13"
-                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
-                               VerticalOptions="Center"/>
-                    </Grid>
+                                        <Grid Padding="6,4"
+                                              ColumnDefinitions="Auto,*"
+                                              ColumnSpacing="10">
+                                                <Image Grid.Column="0"
+                                                       Source="icon_settings.png"
+                                                       WidthRequest="20"
+                                                       HeightRequest="20"/>
+                                                <Label Grid.Column="1"
+                                                       Text="Settings"
+                                                       FontSize="13"
+                                                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                                       VerticalOptions="Center"/>
+                                        </Grid>
+                                </VerticalStackLayout>
+                        </ScrollView>
                 </VerticalStackLayout>
-            </ScrollView>
-        </VerticalStackLayout>
-    </Shell.FlyoutContent>
+        </Shell.FlyoutContent>
 
-    <!-- ── Pre-auth routes (no flyout entry) ─────────────────────────────── -->
-    <ShellContent Route="landing"
-                  ContentTemplate="{DataTemplate views:LandingPage}"
-                  FlyoutItemIsVisible="False"/>
-    <ShellContent Route="login"
-                  ContentTemplate="{DataTemplate views:LoginPage}"
-                  FlyoutItemIsVisible="False"/>
-    <ShellContent Route="signup"
-                  ContentTemplate="{DataTemplate views:SignupPage}"
-                  FlyoutItemIsVisible="False"/>
+        <!-- ── Pre-auth routes (no flyout entry) ─────────────────────────────── -->
+        <ShellContent Route="landing"
+                      ContentTemplate="{DataTemplate views:LandingPage}"
+                      FlyoutItemIsVisible="False"/>
+        <ShellContent Route="login"
+                      ContentTemplate="{DataTemplate views:LoginPage}"
+                      FlyoutItemIsVisible="False"/>
+        <ShellContent Route="signup"
+                      ContentTemplate="{DataTemplate views:SignupPage}"
+                      FlyoutItemIsVisible="False"/>
 
-    <!-- ── Authenticated routes (hidden, accessed via FlyoutContent above) ──── -->
-    <FlyoutItem Title="Briefcase"
-                Icon="icon_clipboard.png"
-                Route="clipboard"
-                FlyoutItemIsVisible="False">
-        <ShellContent ContentTemplate="{DataTemplate views:ClipboardPage}"/>
-    </FlyoutItem>
+        <!-- ── Authenticated routes (hidden, accessed via FlyoutContent above) ──── -->
+        <FlyoutItem Title="Briefcase"
+                    Icon="icon_clipboard.png"
+                    Route="clipboard"
+                    FlyoutItemIsVisible="False">
+                <ShellContent ContentTemplate="{DataTemplate views:ClipboardPage}"/>
+        </FlyoutItem>
 
-    <FlyoutItem Title="Devices"
-                Icon="icon_devices.png"
-                Route="devices"
-                FlyoutItemIsVisible="False">
-        <ShellContent ContentTemplate="{DataTemplate views:DevicesPage}"/>
-    </FlyoutItem>
+        <FlyoutItem Title="Devices"
+                    Icon="icon_devices.png"
+                    Route="devices"
+                    FlyoutItemIsVisible="False">
+                <ShellContent ContentTemplate="{DataTemplate views:DevicesPage}"/>
+        </FlyoutItem>
 
-    <FlyoutItem Title="Receive"
-                Icon="icon_transfer.png"
-                Route="transfer"
-                FlyoutItemIsVisible="False">
-        <ShellContent ContentTemplate="{DataTemplate views:TransferPage}"/>
-    </FlyoutItem>
+        <FlyoutItem Title="Receive"
+                    Icon="icon_transfer.png"
+                    Route="transfer"
+                    FlyoutItemIsVisible="False">
+                <ShellContent ContentTemplate="{DataTemplate views:TransferPage}"/>
+        </FlyoutItem>
 
-    <FlyoutItem Title="Trash"
-                Icon="icon_trash.png"
-                Route="trash"
-                FlyoutItemIsVisible="False">
-        <ShellContent ContentTemplate="{DataTemplate views:TrashPage}"/>
-    </FlyoutItem>
+        <FlyoutItem Title="Trash"
+                    Icon="icon_trash.png"
+                    Route="trash"
+                    FlyoutItemIsVisible="False">
+                <ShellContent ContentTemplate="{DataTemplate views:TrashPage}"/>
+        </FlyoutItem>
 
-    <FlyoutItem Title="Settings"
-                Icon="icon_settings.png"
-                Route="settings"
-                FlyoutItemIsVisible="False">
-        <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}"/>
-    </FlyoutItem>
+        <FlyoutItem Title="Settings"
+                    Icon="icon_settings.png"
+                    Route="settings"
+                    FlyoutItemIsVisible="False">
+                <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}"/>
+        </FlyoutItem>
 
 </Shell>

@@ -200,58 +200,56 @@
 
         <!-- Capture Panel bottom input -->
         <Style x:Key="CapturePanel"
-                        TargetType="Border">
+               TargetType="Border">
                 <Setter Property="StrokeThickness"
-                                Value="1"/>
+                        Value="1"/>
                 <Setter Property="StrokeShape"
-                                Value="RoundRectangle 14"/>
+                        Value="RoundRectangle 14"/>
                 <Setter Property="Padding"
-                                Value="12"/>
+                        Value="10"/>
                 <Setter Property="Stroke"
-                                Value="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"/>
+                        Value="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"/>
                 <Setter Property="BackgroundColor"
-                                Value="{AppThemeBinding Light={StaticResource PageBgLight}, Dark={StaticResource PageBgDark}}"/>
+                        Value="{AppThemeBinding Light={StaticResource PageBgLight}, Dark={StaticResource PageBgDark}}"/>
         </Style>
 
         <Style x:Key="CaptureHeading"
-                        TargetType="Label">
+               TargetType="Label">
                 <Setter Property="FontSize"
-                                Value="12"/>
+                        Value="12"/>
                 <Setter Property="FontAttributes"
-                                Value="Bold"/>
+                        Value="Bold"/>
                 <Setter Property="CharacterSpacing"
-                                Value="0.8"/>
+                        Value="0.8"/>
                 <Setter Property="TextColor"
-                                Value="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"/>
+                        Value="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"/>
         </Style>
 
         <!-- Section header pill for dates/pinned -->
         <Style x:Key="SectionHeaderPill"
-                        TargetType="Border">
+               TargetType="Border">
                 <Setter Property="StrokeThickness"
-                                Value="1"/>
+                        Value="0"/>
                 <Setter Property="StrokeShape"
-                                Value="RoundRectangle 999"/>
+                        Value="RoundRectangle 999"/>
                 <Setter Property="Padding"
-                                Value="10,3"/>
-                <Setter Property="Stroke"
-                                Value="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"/>
+                        Value="8,2"/>
                 <Setter Property="BackgroundColor"
-                                Value="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}"/>
+                        Value="{AppThemeBinding Light={StaticResource SurfaceHoverLight}, Dark={StaticResource SurfaceHoverDark}}"/>
                 <Setter Property="HorizontalOptions"
-                                Value="Center"/>
+                        Value="Center"/>
         </Style>
 
         <Style x:Key="SectionHeaderLabel"
-                        TargetType="Label">
+               TargetType="Label">
                 <Setter Property="FontSize"
-                                Value="11"/>
+                        Value="10"/>
                 <Setter Property="FontAttributes"
-                                Value="Bold"/>
+                        Value="Bold"/>
                 <Setter Property="CharacterSpacing"
-                                Value="0.6"/>
+                        Value="0.6"/>
                 <Setter Property="TextColor"
-                                Value="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"/>
+                        Value="{AppThemeBinding Light={StaticResource TextMutedLight}, Dark={StaticResource TextMutedDark}}"/>
         </Style>
 
 </ResourceDictionary>

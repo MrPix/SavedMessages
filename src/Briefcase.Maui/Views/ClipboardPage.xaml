@@ -9,18 +9,49 @@
              x:DataType="vm:ClipboardViewModel"
              Title="Briefcase">
 
-    <Grid RowDefinitions="*,Auto"
+    <Grid RowDefinitions="Auto,*,Auto"
           RowSpacing="0">
 
+        <!-- Category Filter Tabs -->
+        <ScrollView Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalScrollBarVisibility="Never">
+            <HorizontalStackLayout Padding="12,8,12,8"
+                                   Spacing="12"
+                                   VerticalOptions="Center">
+                <Label Text="All"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource AccentLight}, Dark={StaticResource AccentDark}}"
+                       VerticalOptions="Center"/>
+                <Label Text="Favorites"
+                       FontSize="13"
+                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                       VerticalOptions="Center"/>
+                <Label Text="Files"
+                       FontSize="13"
+                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                       VerticalOptions="Center"/>
+                <Label Text="Links"
+                       FontSize="13"
+                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                       VerticalOptions="Center"/>
+                <Label Text="Notes"
+                       FontSize="13"
+                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                       VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+        </ScrollView>
+
         <!-- Grouped message list -->
-        <CollectionView Grid.Row="0"
+        <CollectionView Grid.Row="1"
                         ItemsSource="{Binding Groups}"
                         IsGrouped="True"
-                        Margin="12,8,12,0">
+                        Margin="12,4,12,0">
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate x:DataType="vm:MessageGroup">
                     <Border Style="{StaticResource SectionHeaderPill}"
-                            Margin="0,8,0,4">
+                            Margin="0,6,0,2">
                         <Label Text="{Binding Name}"
                                Style="{StaticResource SectionHeaderLabel}"/>
                     </Border>
@@ -51,9 +82,9 @@
         </CollectionView>
 
         <!-- Capture Anything panel -->
-        <VerticalStackLayout Grid.Row="1"
-                             Margin="12,12,12,12"
-                             Spacing="8">
+        <VerticalStackLayout Grid.Row="2"
+                             Margin="12,8,12,8"
+                             Spacing="6">
             <Label Text="CAPTURE ANYTHING"
                    Style="{StaticResource CaptureHeading}"/>
 
@@ -61,7 +92,7 @@
                 <Editor Placeholder="Type or paste something…"
                         Text="{Binding Draft}"
                         AutoSize="TextChanges"
-                        MinimumHeightRequest="90"
+                        MinimumHeightRequest="50"
                         FontSize="14"
                         BackgroundColor="{AppThemeBinding Light={StaticResource PageBgLight}, Dark={StaticResource PageBgDark}}"/>
             </Border>
@@ -78,7 +109,7 @@
                         Text="Save"
                         Style="{StaticResource PrimaryButton}"
                         Command="{Binding SaveMessageCommand}"
-                        HeightRequest="40"/>
+                        HeightRequest="36"/>
             </Grid>
         </VerticalStackLayout>
     </Grid>
