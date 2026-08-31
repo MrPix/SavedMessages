@@ -9,6 +9,7 @@ using Briefcase.ApiService.Hubs;
 using Briefcase.ApiService.Models;
 using Briefcase.ApiService.Services;
 using Briefcase.Domain.Entities;
+using Briefcase.Domain.Interfaces;
 using Briefcase.Infrastructure.Persistence;
 
 namespace Briefcase.ApiService.Controllers;
@@ -21,7 +22,8 @@ public class MessagesController(
     IHubContext<MessageHub> hub,
     IGoogleMapsResolver mapsResolver,
     NavigationSettingsService navigationSettings,
-    MessageResponseMapper responseMapper) : ControllerBase
+    MessageResponseMapper responseMapper,
+    IEncryptionService encryption) : ControllerBase
 {
     private Guid GetUserId() =>
         Guid.Parse(User.FindFirstValue(JwtRegisteredClaimNames.Sub)!);
@@ -58,7 +60,7 @@ public class MessagesController(
         {
             var pattern = $"%{q.Trim()}%";
             filtered = filtered.Where(m =>
-                !m.IsEncrypted && m.Content != null && EF.Functions.ILike(m.Content, pattern));
+                !m.IsEncrypted && !m.IsServerEncrypted && m.Content != null && EF.Functions.ILike(m.Content, pattern));
         }
 
         var query = filtered
@@ -98,6 +100,7 @@ public class MessagesController(
             IsPermanentlyDeleted = false,
             IsEncrypted = request.IsEncrypted,
             EncryptionIV = request.IsEncrypted ? request.EncryptionIV : null,
+            IsServerEncrypted = encryption.IsEnabled,
             CreatedAt = now,
             UpdatedAt = now,
         };
@@ -173,6 +176,7 @@ public class MessagesController(
         message.Content = request.Content;
         message.IsEncrypted = request.IsEncrypted;
         message.EncryptionIV = request.IsEncrypted ? request.EncryptionIV : null;
+        message.IsServerEncrypted = encryption.IsEnabled;
         message.UpdatedAt = DateTime.UtcNow;
         var preferences = await navigationSettings.GetAsync(userId);
         ResetNavigation(message, preferences.Enabled);

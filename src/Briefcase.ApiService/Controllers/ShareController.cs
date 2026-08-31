@@ -13,7 +13,7 @@ namespace Briefcase.ApiService.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/share")]
-public class ShareController(AppDbContext db, IFileStorageService storage, IMemoryCache cache) : ControllerBase
+public class ShareController(AppDbContext db, IFileStorageService storage, IMemoryCache cache, IEncryptionService encryption) : ControllerBase
 {
     // GET /api/share/{slug}  →  retrieve shared message content (marks one-time links as used)
     [HttpGet("{slug}")]
@@ -90,6 +90,14 @@ public class ShareController(AppDbContext db, IFileStorageService storage, IMemo
             return NotFound();
 
         var stream = await storage.DownloadAsync(attachment.BlobPath, ct);
+        if (attachment.IsEncrypted || encryption.IsEnabled)
+        {
+            var decryptedMs = new MemoryStream();
+            await encryption.DecryptStreamAsync(stream, decryptedMs, ct);
+            await stream.DisposeAsync();
+            decryptedMs.Position = 0;
+            return File(decryptedMs, attachment.ContentType, attachment.OriginalName);
+        }
         return File(stream, attachment.ContentType, attachment.OriginalName);
     }
 
@@ -110,6 +118,14 @@ public class ShareController(AppDbContext db, IFileStorageService storage, IMemo
             return NotFound();
 
         var stream = await storage.DownloadAsync(attachment.PreviewBlobPath, ct);
+        if (attachment.IsEncrypted || encryption.IsEnabled)
+        {
+            var decryptedMs = new MemoryStream();
+            await encryption.DecryptStreamAsync(stream, decryptedMs, ct);
+            await stream.DisposeAsync();
+            decryptedMs.Position = 0;
+            return File(decryptedMs, "image/jpeg");
+        }
         return File(stream, "image/jpeg");
     }
 }

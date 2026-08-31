@@ -312,11 +312,12 @@ Message
   PinnedAt        datetime?   set when pinned, null when not pinned
   IsDeleted       bool        soft-delete flag; default false
   DeletedAt       datetime?   set when moved to Trash, null when active or restored
-  IsEncrypted     bool        true when Content is E2EE ciphertext; default false
+  IsEncrypted     bool        true when Content is client-side E2EE ciphertext; default false
   EncryptionIV    string?     base64-encoded 96-bit AES-GCM nonce, unique per message
+  IsServerEncrypted bool      true when Content and GPS coordinates are encrypted at rest with server key
   NavigationStatus enum      None | Pending | Processing | Completed | Failed
-  NavigationLatitude double? resolved destination latitude for supported Google Maps links
-  NavigationLongitude double? resolved destination longitude for supported Google Maps links
+  NavigationLatitude double? resolved destination latitude (persisted as encrypted/plaintext text column)
+  NavigationLongitude double? resolved destination longitude (persisted as encrypted/plaintext text column)
   NavigationProcessingStartedAt datetime? used to recover stale worker claims
   NavigationProcessedAt datetime? last completed processing time
   NavigationProcessingAttempts int number of resolver attempts
@@ -349,6 +350,8 @@ FileAttachment
   ContentType     string
   SizeBytes       long
   BlobPath        string      (S3/MinIO object key path)
+  PreviewBlobPath string?     (S3/MinIO preview object key path)
+  IsEncrypted     bool        true when blob in MinIO is encrypted with server key
   CreatedAt       datetime
 
 RefreshToken
@@ -480,6 +483,7 @@ ShareLink
 - File downloads are streamed through the API (never expose the raw S3/MinIO credentials or presigned URLs to clients).
 - Transfer sessions expire after 10 minutes and are single-use.
 - Pairing QR tokens expire after 5 minutes and are signed JWTs verified server-side.
+- Server-side encryption at rest uses AES-256-GCM with a 32-byte key from `Encryption:Key` / `ENCRYPTION_KEY`. Message content, GPS coordinates (`NavigationLatitude`/`NavigationLongitude`), and file attachments/previews in MinIO are encrypted transparently on write and decrypted on read. Pre-existing unencrypted rows/blobs remain fully readable.
 - All user data is scoped by `UserId` — no cross-user data access is possible at the repository layer.
 - Azure Key Vault holds all secrets; Aspire wires them via `IConfiguration` in production.
 

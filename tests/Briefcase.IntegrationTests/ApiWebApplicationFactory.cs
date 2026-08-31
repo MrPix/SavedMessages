@@ -47,6 +47,7 @@ public sealed class ApiWebApplicationFactory : WebApplicationFactory<Program>, I
                 // ConfigureTestServices so this value is never actually used.
                 ["ConnectionStrings:Briefcasedb"] = "Host=localhost;Database=test_placeholder;Username=test;Password=test",
                 ["ConnectionStrings:s3"] = "http://localhost:9000",
+                ["Encryption:Key"] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
             });
         });
 

@@ -35,6 +35,7 @@ public class MessageResponseMapper(NavigationApplicationCatalog catalog)
             message.NavigationStatus,
             targets,
             message.CreatedAt,
-            message.UpdatedAt);
+            message.UpdatedAt,
+            message.IsServerEncrypted);
     }
 }
