@@ -9,12 +9,16 @@ using Scalar.AspNetCore;
 using Amazon.S3;
 using Briefcase.Domain.Interfaces;
 using Briefcase.Infrastructure.Persistence;
+using Briefcase.Infrastructure.Security;
 using Briefcase.Infrastructure.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();
+
+// ── Encryption ───────────────────────────────────────────────────────────────
+builder.Services.AddSingleton<IEncryptionService, AesEncryptionService>();
 
 // ── EF Core (PostgreSQL via Aspire) ──────────────────────────────────────────
 builder.AddNpgsqlDbContext<AppDbContext>("Briefcasedb");
