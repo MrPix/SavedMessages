@@ -33,6 +33,7 @@ public class Message
     public DateTime? PermanentlyDeletedAt { get; set; }
     public bool IsEncrypted { get; set; }
     public string? EncryptionIV { get; set; }
+    public bool IsServerEncrypted { get; set; }
     public NavigationProcessingStatus NavigationStatus { get; set; }
     public double? NavigationLatitude { get; set; }
     public double? NavigationLongitude { get; set; }

@@ -70,6 +70,7 @@ public sealed class MessagesControllerTests
         Assert.AreEqual(MessageKind.Text, msg.Kind);
         Assert.IsFalse(msg.IsPinned);
         Assert.IsFalse(msg.IsEncrypted);
+        Assert.IsTrue(msg.IsServerEncrypted);
         Assert.AreNotEqual(Guid.Empty, msg.Id);
     }
 

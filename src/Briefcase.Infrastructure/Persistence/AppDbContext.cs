@@ -1,9 +1,12 @@
+using System.Globalization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Briefcase.Domain.Entities;
+using Briefcase.Domain.Interfaces;
 
 namespace Briefcase.Infrastructure.Persistence;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+public class AppDbContext(DbContextOptions<AppDbContext> options, IEncryptionService? encryptionService = null) : DbContext(options)
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<ExternalLogin> ExternalLogins => Set<ExternalLogin>();
@@ -20,6 +23,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        var contentConverter = new ValueConverter<string?, string?>(
+            v => encryptionService != null ? encryptionService.Encrypt(v) : v,
+            v => encryptionService != null ? encryptionService.Decrypt(v) : v);
+
+        var coordConverter = new ValueConverter<double?, string?>(
+            v => ConvertDoubleToDb(v, encryptionService),
+            v => ConvertDbToDouble(v, encryptionService));
 
         // ── User ─────────────────────────────────────────────────────────────
         modelBuilder.Entity<User>(e =>
@@ -73,11 +84,19 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             e.Property(m => m.Kind)
                 .HasConversion<string>()
                 .HasMaxLength(10);
+            e.Property(m => m.Content)
+                .HasConversion(contentConverter);
             e.Property(m => m.EncryptionIV).HasMaxLength(24);
             e.Property(m => m.NavigationStatus)
                 .HasConversion<string>()
                 .HasMaxLength(20)
                 .HasDefaultValue(NavigationProcessingStatus.None);
+            e.Property(m => m.NavigationLatitude)
+                .HasColumnType("text")
+                .HasConversion(coordConverter);
+            e.Property(m => m.NavigationLongitude)
+                .HasColumnType("text")
+                .HasConversion(coordConverter);
             e.Property(m => m.NavigationProcessingError).HasMaxLength(500);
             e.HasIndex(m => new { m.UserId, m.IsDeleted, m.IsPermanentlyDeleted, m.CreatedAt });
             e.HasIndex(m => new { m.NavigationStatus, m.NavigationProcessingStartedAt });
@@ -204,5 +223,21 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+    }
+
+    private static string? ConvertDoubleToDb(double? val, IEncryptionService? enc)
+    {
+        if (!val.HasValue) return null;
+        var str = val.Value.ToString(CultureInfo.InvariantCulture);
+        return enc != null ? enc.Encrypt(str) : str;
+    }
+
+    private static double? ConvertDbToDouble(string? val, IEncryptionService? enc)
+    {
+        if (string.IsNullOrEmpty(val)) return null;
+        var decrypted = enc != null ? enc.Decrypt(val) : val;
+        return double.TryParse(decrypted, NumberStyles.Float, CultureInfo.InvariantCulture, out var result)
+            ? result
+            : null;
     }
 }

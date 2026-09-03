@@ -24,7 +24,8 @@ public record MessageResponse(
     NavigationProcessingStatus NavigationStatus,
     IReadOnlyList<NavigationTargetResponse> NavigationTargets,
     DateTime CreatedAt,
-    DateTime UpdatedAt);
+    DateTime UpdatedAt,
+    bool IsServerEncrypted = false);
 
 public record NavigationTargetResponse(
     string ApplicationId,

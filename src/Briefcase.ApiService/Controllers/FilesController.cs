@@ -17,7 +17,7 @@ namespace Briefcase.ApiService.Controllers;
 [ApiController]
 [Authorize]
 [Route("api/files")]
-public class FilesController(AppDbContext db, IFileStorageService storage) : ControllerBase
+public class FilesController(AppDbContext db, IFileStorageService storage, IEncryptionService encryption) : ControllerBase
 {
     private const string PreviewContentType = "image/jpeg";
 
@@ -40,8 +40,17 @@ public class FilesController(AppDbContext db, IFileStorageService storage) : Con
         var blobPath = $"{userId}/{fileId}/{file.FileName}";
         string? previewBlobPath = null;
 
-        await using var stream = file.OpenReadStream();
-        await storage.UploadAsync(blobPath, file.ContentType, stream, ct);
+        await using var rawStream = file.OpenReadStream();
+        Stream uploadStream = rawStream;
+        await using var encryptedMs = new MemoryStream();
+        if (encryption.IsEnabled)
+        {
+            await encryption.EncryptStreamAsync(rawStream, encryptedMs, ct);
+            encryptedMs.Position = 0;
+            uploadStream = encryptedMs;
+        }
+
+        await storage.UploadAsync(blobPath, file.ContentType, uploadStream, ct);
 
         if (IsImage(file.ContentType))
         {
@@ -53,7 +62,16 @@ public class FilesController(AppDbContext db, IFileStorageService storage) : Con
                 await using (previewStream)
                 {
                     previewBlobPath = $"{userId}/{fileId}/preview.jpg";
-                    await storage.UploadAsync(previewBlobPath, PreviewContentType, previewStream, ct);
+                    Stream previewUploadStream = previewStream;
+                    await using var encryptedPreviewMs = new MemoryStream();
+                    if (encryption.IsEnabled)
+                    {
+                        previewStream.Position = 0;
+                        await encryption.EncryptStreamAsync(previewStream, encryptedPreviewMs, ct);
+                        encryptedPreviewMs.Position = 0;
+                        previewUploadStream = encryptedPreviewMs;
+                    }
+                    await storage.UploadAsync(previewBlobPath, PreviewContentType, previewUploadStream, ct);
                 }
             }
         }
@@ -67,6 +85,7 @@ public class FilesController(AppDbContext db, IFileStorageService storage) : Con
             SizeBytes = file.Length,
             BlobPath = blobPath,
             PreviewBlobPath = previewBlobPath,
+            IsEncrypted = encryption.IsEnabled,
             CreatedAt = DateTime.UtcNow,
         };
 
@@ -83,7 +102,7 @@ public class FilesController(AppDbContext db, IFileStorageService storage) : Con
         });
     }
 
-    // GET /api/files/{id}  →  download (redirect to presigned URL)
+    // GET /api/files/{id}  →  download
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> DownloadFile(Guid id, CancellationToken ct)
     {
@@ -95,6 +114,14 @@ public class FilesController(AppDbContext db, IFileStorageService storage) : Con
             return NotFound();
 
         var stream = await storage.DownloadAsync(attachment.BlobPath, ct);
+        if (attachment.IsEncrypted || encryption.IsEnabled)
+        {
+            var decryptedMs = new MemoryStream();
+            await encryption.DecryptStreamAsync(stream, decryptedMs, ct);
+            await stream.DisposeAsync();
+            decryptedMs.Position = 0;
+            return File(decryptedMs, attachment.ContentType, attachment.OriginalName);
+        }
         return File(stream, attachment.ContentType, attachment.OriginalName);
     }
 
@@ -113,6 +140,14 @@ public class FilesController(AppDbContext db, IFileStorageService storage) : Con
             return NotFound();
 
         var stream = await storage.DownloadAsync(attachment.PreviewBlobPath, ct);
+        if (attachment.IsEncrypted || encryption.IsEnabled)
+        {
+            var decryptedMs = new MemoryStream();
+            await encryption.DecryptStreamAsync(stream, decryptedMs, ct);
+            await stream.DisposeAsync();
+            decryptedMs.Position = 0;
+            return File(decryptedMs, PreviewContentType);
+        }
         return File(stream, PreviewContentType);
     }
 

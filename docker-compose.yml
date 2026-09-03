@@ -147,6 +147,8 @@ services:
       Storage__BucketName: ${MINIO_BUCKET_NAME:-briefcase}
       Storage__AccessKey: ${MINIO_ROOT_USER:-minioadmin}
       Storage__SecretKey: ${MINIO_ROOT_PASSWORD:?Set MINIO_ROOT_PASSWORD in .env}
+      # Encryption at rest
+      Encryption__Key: ${ENCRYPTION_KEY:-}
       # CORS — must match the public URL users open in their browser
       Cors__AllowedOrigins__0: ${PUBLIC_WEB_URL:-http://localhost}
       # OAuth (Google)
